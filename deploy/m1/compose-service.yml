@@ -1,0 +1,24 @@
+# Goes under services: in /home/user/docker/docker-compose-kiwi-node.yml
+# No depends_on knvpn-client: the schedule keeps running while the VPN restarts.
+  knsmartfritz:
+    build:
+      context: ./knsmartfritz/app
+      dockerfile: Containerfile
+    image: localhost/smartfritz:0.2.0
+    container_name: knsmartfritz
+    env_file: ./knsmartfritz/smartfritz.env
+    volumes:
+      - ./knsmartfritz/data:/data
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      knet-node:
+        ipv4_address: 172.128.0.100
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1f231e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="smartfritz">
+<title>smartfritz</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<section id="offline" class="login" hidden>
+  <div class="panel offline">
+    <h1>Can't reach smartfritz</h1>
+    <p class="muted">Check that this device is on your home network or VPN. The schedule runs on your server, not on this device.</p>
+    <button id="retry" class="primary">Try again</button>
+  </div>
+</section>
+
+<section id="login" class="login" hidden>
+  <form id="login-form" class="panel">
+    <h1>smartfritz</h1>
+    <label>Password <input id="login-password" type="password" autocomplete="current-password" required></label>
+    <p id="login-error" class="error" role="alert" hidden></p>
+    <button class="primary">Log in</button>
+  </form>
+</section>
+
+<div id="app" hidden>
+  <header>
+    <h1>smartfritz</h1>
+    <nav>
+      <button data-tab="plugs" class="tab">Plugs</button>
+      <button data-tab="history" class="tab">History</button>
+      <button data-tab="log" class="tab">Log</button>
+    </nav>
+    <span id="box-status" class="box"></span>
+    <button id="install" class="quiet" hidden>Install app</button>
+  </header>
+  <p id="banner" class="banner" role="alert" hidden></p>
+  <main>
+    <section id="tab-plugs">
+      <div id="zones" class="cards"></div>
+      <button id="add-plug" class="quiet">Add plug</button>
+    </section>
+    <section id="tab-history" hidden></section>
+    <section id="tab-log" hidden></section>
+  </main>
+</div>
+
+<dialog id="schedule-dialog">
+  <form id="schedule-form">
+    <h2 id="schedule-title"></h2>
+    <label id="grow-name-row">Grow name <input id="grow-name" maxlength="80"></label>
+    <label>Stage
+      <select id="kind"><option value="veg">Veg</option><option value="bloom">Bloom</option><option value="other">Other</option></select>
+    </label>
+    <div class="field">
+      <span class="field-label">Light schedule</span>
+      <div id="presets" class="chips"></div>
+    </div>
+    <div class="row">
+      <label>Hours on <input id="on-hours" type="number" min="0" max="168" step="0.25" required></label>
+      <label>Hours off <input id="off-hours" type="number" min="0" max="168" step="0.25" required></label>
+    </div>
+    <label id="start-mode-row">Starts
+      <select id="start-mode">
+        <option value="next_on">At the next lights-on (keeps tonight's dark period)</option>
+        <option value="now">Now (lights on immediately)</option>
+        <option value="at">At a set time</option>
+      </select>
+    </label>
+    <label id="start-at-row">First lights on <input id="start-at" type="datetime-local"></label>
+    <p id="schedule-error" class="error" role="alert" hidden></p>
+    <div class="actions">
+      <button type="button" class="quiet" data-close>Cancel</button>
+      <button class="primary">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="plug-dialog">
+  <form id="plug-form">
+    <h2>Add plug</h2>
+    <label>Plug <select id="plug-unit" required></select></label>
+    <label>Name <input id="plug-name" maxlength="80" required></label>
+    <label>Lamp watts <input id="plug-watts" type="number" min="1" max="10000" step="1" placeholder="Only for plugs without a meter"></label>
+    <p id="plug-error" class="error" role="alert" hidden></p>
+    <div class="actions">
+      <button type="button" class="quiet" data-close>Cancel</button>
+      <button class="primary">Add</button>
+    </div>
+  </form>
+</dialog>
+<script src="app.js"></script>
+</body>
+</html>
